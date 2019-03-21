@@ -28,36 +28,18 @@
   <div class="col-md-12">
     <ul class="list-group">
       <li class="list-group-item list-group-item-info">
-        You loved bagels at...
+        Where is the specialty from?
       </li>
-
-
       <li class="list-group-item">
     <form action="/create_bookmark" method="post">
-
       <!-- Label and input for dish_id -->
       <input type="hidden" name="dish_id" value="<%= @dish.id %>">
-
       <!-- Label and input for venue_id -->
       <div class="form-group">
-        <label for="venue_id" class="control-label">
-          Venue
-        </label>
-
         <%= select_tag("venue_id", options_from_collection_for_select(Venue.all, :id, :name), :class => "form-control") %>
       </div>
-
-      <!-- Label and input for user_id -->
       <input type="hidden" name="user_id" value="<%= current_user.id %>">
-
-      <!-- Label and input for notes -->
-      <div class="form-group">
-        <label for="notes" class="control-label">
-         Any Notes?
-        </label>
-
-        <textarea id="notes" name="notes" placeholder="Notes" class="form-control" rows="3"></textarea>
-      </div>
+      <input type="hidden" name="notes" value="">
 
            <button class="btn btn-primary btn-sm">
               <i class="fa fa-heart"></i>
@@ -68,21 +50,22 @@
   </div>
 </div>
 
-  <% Bookmark.where(dish_id: @dish.id).each do |bookmark| %>
-     <% User.where(id: current_user.id).each do |us|  %> 
+  <% Bookmark.where(dish_id: @dish.id, user_id: current_user.id).each do |bookmark| %>
      <% Venue.where(id: bookmark.venue_id).each do |venue|%>
-      
  
     <ul class="list-ustyled pt-3">
       <li class="media mb-2">
+        
         <div>
         <h6>
-        <a href="/venues/<%=bookmark.venue_id %>"><%=venue.name %></a> <%= time_ago_in_words(bookmark.updated_at)%>
+          
+        <p><a href="/venues/<%=bookmark.venue_id %>"><%=venue.name %></a></p>
+        <%= time_ago_in_words(bookmark.updated_at)%>
         </h6>
 
         </div>
+        
       </li>
     </ul>
       <% end %>    
-      <% end %>
   <% end %>

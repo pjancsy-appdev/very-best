@@ -49,13 +49,12 @@
         <th>Name</th>
         <th>Address</th>
         <th>Neighborhood</th>
-        <th>Actions</th>
+
       </tr>
 
 
-      <% @venues.each do |v| %>
-      <% Bookmark.where(user_id: current_user).each do |bookmark| %>
-      <% Venue.where(id: bookmark.venue_id).each do |venue| %>
+      <% @venues.each do |venue| %>
+
       <tr>
         <td><%= venue.name %></td>
         <td><%= venue.address %></td>
@@ -68,8 +67,7 @@
         </td>
 
       </tr>
-      <% end %>
-      <% end %>
+
       <% end %>
     </table>
     <%= paginate @venues, theme: 'twitter-bootstrap-4' %>
